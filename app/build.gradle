@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+apply plugin: 'com.neenbedankt.android-apt'
 
 android {
     compileSdkVersion 23
@@ -44,4 +45,8 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
 
     compile 'org.jdeferred:jdeferred-android-aar:1.2.4'
+
+    compile 'com.google.dagger:dagger:2.7'
+    apt 'com.google.dagger:dagger-compiler:2.7'
+    provided 'javax.annotation:jsr250-api:1.0'
 }
