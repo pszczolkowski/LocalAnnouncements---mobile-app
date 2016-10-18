@@ -12,11 +12,13 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import pl.weeia.localannouncements.R;
+import pl.weeia.localannouncements.api.Failure;
+import pl.weeia.localannouncements.api.user.AuthenticationFailure;
 import pl.weeia.localannouncements.api.user.UserApi;
 
 /**
- * Represents application user.
- * This class is used to authenticateWithCredentials user using credentials.
+ * Represents application authenticator.
+ * This class is used to authenticateWithCredentials authenticator using credentials.
  */
 @Singleton
 public class Authenticator {
@@ -39,14 +41,10 @@ public class Authenticator {
 	}
 
 	/**
-	 * Authenticate user using given credentials. It performs HTTP request
-	 *
-	 * @return Promise <ApplicationUser, Throwable, Void> Rejected promise contains Throwable object. It can be
-	 * 	an HttpException instance if request failed due to response status code. IF the request
-	 * 	failed for any other reason, then Throwable is an exception with failure message
+	 * Authenticate authenticator using given credentials. It performs HTTP request in separate thread
 	 */
-	public Promise<ApplicationUser, Throwable, Void> authenticateWithCredentials(String username, String password) {
-		final DeferredObject<ApplicationUser, Throwable, Void> deferred = new DeferredObject<>();
+	public Promise<ApplicationUser, Failure<AuthenticationFailure>, Void> authenticateWithCredentials(String username, String password) {
+		final DeferredObject<ApplicationUser, Failure<AuthenticationFailure>, Void> deferred = new DeferredObject<>();
 
 		String authorizationHeader = "Basic " + Base64.encodeToString((clientId + ":" + clientSecret).getBytes(), Base64.NO_WRAP);
 
@@ -62,17 +60,18 @@ public class Authenticator {
 							public void onDone(ApplicationUser applicationUser) {
 								deferred.resolve(applicationUser);
 							}
-						}).fail(new FailCallback<Throwable>() {
+						}).fail(new FailCallback<Failure<?>>() {
 							@Override
-							public void onFail(Throwable throwable) {
-								deferred.reject(throwable);
+							public void onFail(Failure<?> failure) {
+								Failure<AuthenticationFailure> authorizationFailure = Failure.causedBy(failure.getThrowable());
+								deferred.reject(authorizationFailure);
 							}
 						});
 				}
-			}).fail(new FailCallback<Throwable>() {
+			}).fail(new FailCallback<Failure<AuthenticationFailure>>() {
 				@Override
-				public void onFail(Throwable throwable) {
-					deferred.reject(throwable);
+				public void onFail(Failure<AuthenticationFailure> failure) {
+					deferred.reject(failure);
 				}
 			});
 
