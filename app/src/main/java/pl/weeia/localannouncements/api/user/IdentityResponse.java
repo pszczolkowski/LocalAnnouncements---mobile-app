@@ -15,6 +15,8 @@ class IdentityResponse {
 	private int age;
 	@JsonProperty("gender")
 	private Gender gender;
+	@JsonProperty("email")
+	private String email;
 
 	int getId() {
 		return id;
@@ -32,4 +34,7 @@ class IdentityResponse {
 		return gender;
 	}
 
+	public String getEmail() {
+		return email;
+	}
 }
