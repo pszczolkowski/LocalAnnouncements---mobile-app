@@ -2,6 +2,7 @@ package pl.weeia.localannouncements.api.user;
 
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -23,5 +24,8 @@ interface UserRetrofitApi {
 
 	@GET("account")
 	Call<IdentityResponse> getIdentity();
+
+	@POST("account")
+	Call<IdentityResponse> register(@Body RegistrationForm registrationForm);
 
 }

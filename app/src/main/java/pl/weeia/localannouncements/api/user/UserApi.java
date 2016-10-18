@@ -93,14 +93,37 @@ public class UserApi {
 		return deferred.promise();
 	}
 
+	public Promise<Void, Failure<RegistrationFailure>, Void> register(RegistrationForm registrationForm) {
+		final DeferredObject<Void, Failure<RegistrationFailure>, Void> deferred = new DeferredObject<>();
+
+		Call<IdentityResponse> call = api.register(registrationForm);
+		call.enqueue(new Callback<IdentityResponse>() {
+			@Override
+			public void onResponse(Call<IdentityResponse> call, Response<IdentityResponse> response) {
+				if (response.code() >= 200 && response.code() < 300) {
+					deferred.resolve(null);
 				} else {
-					deferred.reject(new HttpException(response.code()));
+					Failure<RegistrationFailure> failure = Failure.causedByResponseCode(response.code());
+
+					if (isResponseBadRequest(response)) {
+						ErrorResponse errorResponse = new ErrorResponse(response.errorBody());
+
+						if (errorResponse.hasFieldError("login", "login is already taken")) {
+							failure.addReason(USERNAME_ALREADY_TAKEN);
+						}
+						if (errorResponse.hasFieldError("email", "email is already taken")) {
+							failure.addReason(EMAIL_ALREADY_TAKEN);
+						}
+					}
+
+					deferred.reject(failure);
 				}
 			}
 
 			@Override
-			public void onFailure(Call<IdentityResponse> call, Throwable t) {
-				deferred.reject(t);
+			public void onFailure(Call<IdentityResponse> call, Throwable throwable) {
+				Failure<RegistrationFailure> failure = Failure.causedBy(throwable);
+				deferred.reject(failure);
 			}
 		});
 
