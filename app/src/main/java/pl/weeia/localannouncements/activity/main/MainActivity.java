@@ -2,35 +2,32 @@ package pl.weeia.localannouncements.activity.main;
 
 import android.os.Bundle;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.jdeferred.android.AndroidDoneCallback;
-import org.jdeferred.android.AndroidExecutionScope;
-import org.jdeferred.android.AndroidFailCallback;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pl.weeia.localannouncements.R;
+import pl.weeia.localannouncements.api.Failure;
+import pl.weeia.localannouncements.api.user.AuthenticationFailure;
+import pl.weeia.localannouncements.api.user.UserApi;
 import pl.weeia.localannouncements.service.user.ApplicationUser;
 import pl.weeia.localannouncements.service.user.Authenticator;
+import pl.weeia.localannouncements.shared.AndroidUiDoneCallback;
+import pl.weeia.localannouncements.shared.AndroidUiFailCallback;
 import pl.weeia.localannouncements.shared.BaseActivity;
-import pl.weeia.localannouncements.shared.exception.HttpException;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
+
+import static pl.weeia.localannouncements.api.user.AuthenticationFailure.BAD_CREDENTIALS;
 
 public class MainActivity extends BaseActivity {
 
 	@BindView(R.id.testView) protected TextView testView;
 
 	@Inject
-	protected Authenticator user;
+	protected Authenticator authenticator;
 
 	@Inject
-	protected Retrofit retrofit;
+	protected UserApi userApi;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,33 +39,25 @@ public class MainActivity extends BaseActivity {
 		ButterKnife.bind(this);
 		getContainer().inject(this);
 
-		// here's example of authenticating user using credentials
-		user
+		// here's example of authenticating authenticator using credentials
+		authenticator
 			.authenticateWithCredentials("tester", "123456")
-			.then(new AndroidDoneCallback<ApplicationUser>() {
+			.then(new AndroidUiDoneCallback<ApplicationUser>() {
 				@Override
 				public void onDone(ApplicationUser result) {
 					testView.setText("authenticated successfully");
 				}
-
-				@Override
-				public AndroidExecutionScope getExecutionScope() {
-					return AndroidExecutionScope.UI;
-				}
 			})
-			.fail(new AndroidFailCallback<Throwable>() {
+			.fail(new AndroidUiFailCallback<Failure<AuthenticationFailure>>() {
 				@Override
-				public void onFail(Throwable result) {
-					if (result instanceof HttpException) {
-						testView.setText("" + ((HttpException) result).getCode());
+				public void onFail(Failure<AuthenticationFailure> failure) {
+					if (failure.isBecauseOfThrowable()) {
+						testView.setText("" + failure.getThrowable().getMessage());
+					} else if (failure.isBecauseOf(BAD_CREDENTIALS)) {
+						testView.setText("bad credentials");
 					} else {
-						testView.setText("" + result.getMessage());
+						testView.setText("" + failure.getStatusCode());
 					}
-				}
-
-				@Override
-				public AndroidExecutionScope getExecutionScope() {
-					return AndroidExecutionScope.UI;
 				}
 			});
 
