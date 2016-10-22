@@ -35,4 +35,23 @@ public class RegistrationForm {
 		this.email = email;
 		return this;
 	}
+	public String getLogin() {
+		return login;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public Gender getGender() {
+		return gender;
+	}
+
+	public String getEmail() {
+		return email;
+	}
 }

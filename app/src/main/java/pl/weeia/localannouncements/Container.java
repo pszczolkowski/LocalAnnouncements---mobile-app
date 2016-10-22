@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import dagger.Component;
 import pl.weeia.localannouncements.activity.main.MainActivity;
+import pl.weeia.localannouncements.activity.main.RegisterActivity;
 import pl.weeia.localannouncements.service.retrofit.RetrofitModule;
 import pl.weeia.localannouncements.service.user.UserModule;
 
@@ -16,5 +17,5 @@ import pl.weeia.localannouncements.service.user.UserModule;
 public interface Container {
 
 	void inject(MainActivity mainActivity);
-
+	void inject(RegisterActivity registerActivity);
 }
