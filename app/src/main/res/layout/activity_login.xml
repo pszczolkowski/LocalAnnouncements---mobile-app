@@ -13,19 +13,19 @@
               tools:context="pl.weeia.localannouncements.activity.login.LoginActivity">
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/login_edittext_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/login_edittext_hint_username"/>
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/login_edittext_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/login_edittext_hint_password"/>
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/login_button_sign_in"
         style="@style/AlertDialog.AppCompat.Light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
 
 
     <TextView
-        android:id="@+id/login_button_sign_up"
+        android:id="@+id/login_textview_sign_up"
         android:clickable="true"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
@@ -47,7 +47,7 @@
         android:textAlignment="center"/>
 
     <TextView
-        android:id="@+id/login_button_recover_password"
+        android:id="@+id/login_textview_recover_password"
         android:clickable="true"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
