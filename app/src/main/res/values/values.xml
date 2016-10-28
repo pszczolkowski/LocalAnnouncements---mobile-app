@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- slash at the end of url is required -->
-    <string name="serverUrl">http://192.168.56.1:8089/localannouncements/</string>
+    <string name="serverUrl">http://git.7ds.pl:8081/LocalAnnouncements/</string>
 
     <string name="clientId">localannouncementsapp</string>
     <string name="clientSecret">mySecretOAuthSecret</string>
