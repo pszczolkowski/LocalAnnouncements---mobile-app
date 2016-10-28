@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">LocalAnnouncements</string>
+
+    <!-- LOGIN ACTIVITY -->
+    <string name="login_edittext_hint_username">Username</string>
+    <string name="login_edittext_hint_password">Password</string>
+    <string name="login_button_sign_in">Sign in</string>
+    <string name="login_button_sign_up">Not a member? Sign up now</string>
+    <string name="login_button_recover_password">Recover password</string>
 </resources>

@@ -16,13 +16,13 @@
         android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username"/>
+        android:hint="@string/login_edittext_hint_username"/>
 
     <EditText
         android:id="@+id/editText2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"/>
+        android:hint="@string/login_edittext_hint_password"/>
 
     <Button
         android:id="@+id/button"
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:background="@android:color/holo_green_light"
-        android:text="SIGN IN"
+        android:text="@string/login_button_sign_in"
         android:textColor="@android:color/background_light"
         android:textSize="18sp"/>
 
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:layout_width="match_parent"
-        android:text="Not a member? Sing up now"
+        android:text="@string/login_button_sign_up"
         android:textAlignment="center"/>
 
     <TextView
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:text="Recover password"
+        android:text="@string/login_button_recover_password"
         android:textAlignment="center"/>
 
 </LinearLayout>
