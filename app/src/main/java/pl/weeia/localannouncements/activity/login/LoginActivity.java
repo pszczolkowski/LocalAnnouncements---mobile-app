@@ -1,4 +1,4 @@
-package pl.weeia.localannouncements.activity.main;
+package pl.weeia.localannouncements.activity.login;
 
 import android.content.Context;
 import android.content.SharedPreferences;

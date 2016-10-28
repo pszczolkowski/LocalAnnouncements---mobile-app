@@ -1,4 +1,4 @@
-package pl.weeia.localannouncements.activity.main;
+package pl.weeia.localannouncements.activity.register;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -17,6 +17,7 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import pl.weeia.localannouncements.R;
+import pl.weeia.localannouncements.activity.main.MainActivity;
 import pl.weeia.localannouncements.api.Failure;
 import pl.weeia.localannouncements.api.user.AuthenticationFailure;
 import pl.weeia.localannouncements.api.user.RegistrationFailure;

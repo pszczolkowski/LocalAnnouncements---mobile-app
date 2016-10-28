@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import pl.weeia.localannouncements.R;
+import pl.weeia.localannouncements.activity.register.RegisterActivity;
 import pl.weeia.localannouncements.api.Failure;
 import pl.weeia.localannouncements.api.user.AuthenticationFailure;
 import pl.weeia.localannouncements.api.user.UserApi;
