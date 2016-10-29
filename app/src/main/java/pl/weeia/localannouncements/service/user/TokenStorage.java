@@ -12,4 +12,7 @@ public class TokenStorage {
 		this.oAuthToken = oAuthToken;
 	}
 
+	public boolean hasToken() {
+		return oAuthToken != null;
+	}
 }

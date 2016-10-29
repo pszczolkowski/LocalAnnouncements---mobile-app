@@ -35,7 +35,7 @@ public class RetrofitModule {
 			public okhttp3.Response intercept(Chain chain) throws IOException {
 				Request request = chain.request();
 
-				if (request.header("Authorization") == null) {
+				if (request.header("Authorization") == null &&  tokenStorage.hasToken()) {
 					request = request.newBuilder()
 							.header("Authorization", "Bearer " + tokenStorage.getToken().getAccessToken())
 							.method(request.method(), request.body())

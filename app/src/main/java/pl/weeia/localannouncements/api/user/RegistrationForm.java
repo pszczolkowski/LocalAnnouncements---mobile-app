@@ -39,7 +39,7 @@ public class RegistrationForm {
 		return login;
 	}
 
-	public String getPassword() {
+	public String getRawPassword() {
 		return rawPassword;
 	}
 
