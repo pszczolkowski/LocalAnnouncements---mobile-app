@@ -23,5 +23,10 @@
     <string name="register_radiobuttonw_gender_male">Male</string>
     <string name="register_radiobuttonw_gender_female">Female</string>
     <string name="register_textview_gender">Gender</string>
+    <string name="register_validation_age_max">Should be less than 100</string>
+    <string name="register_validation_age_min">Should be at least 1</string>
+    <string name="register_validation_password_length">Should be between 5 and 30 characters</string>
+    <string name="register_validation_username_length">Should be between 3 and 20 characters</string>
+    <string name="register_validation_username_pattern">Contains invalid characters</string>
 
 </resources>
