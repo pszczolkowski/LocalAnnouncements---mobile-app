@@ -6,7 +6,7 @@ import pl.weeia.localannouncements.shared.enums.Gender;
 public class RegistrationForm {
 
 	private String login;
-	private String password;
+	private String rawPassword;
 	private int age;
 	private Gender gender;
 	private String email;
@@ -17,7 +17,7 @@ public class RegistrationForm {
 	}
 
 	public RegistrationForm withPassword(String password) {
-		this.password = password;
+		this.rawPassword = password;
 		return this;
 	}
 
@@ -40,7 +40,7 @@ public class RegistrationForm {
 	}
 
 	public String getPassword() {
-		return password;
+		return rawPassword;
 	}
 
 	public int getAge() {
