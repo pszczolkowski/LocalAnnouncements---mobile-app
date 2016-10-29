@@ -7,4 +7,6 @@
     <string name="login_button_sign_in">Sign in</string>
     <string name="login_button_sign_up">Not a member? Sign up now</string>
     <string name="login_button_recover_password">Recover password</string>
+    <string name="login_message_error">Some error occurred</string>
+    <string name="login_message_bad_credentials">Invalid username or password</string>
 </resources>

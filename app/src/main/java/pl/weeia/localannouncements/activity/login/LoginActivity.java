@@ -1,17 +1,19 @@
 package pl.weeia.localannouncements.activity.login;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import pl.weeia.localannouncements.R;
+import pl.weeia.localannouncements.activity.main.MainActivity;
+import pl.weeia.localannouncements.activity.register.RegisterActivity;
 import pl.weeia.localannouncements.api.Failure;
 import pl.weeia.localannouncements.api.user.AuthenticationFailure;
 import pl.weeia.localannouncements.service.user.ApplicationUser;
@@ -23,64 +25,75 @@ import pl.weeia.localannouncements.shared.BaseActivity;
 import static pl.weeia.localannouncements.api.user.AuthenticationFailure.BAD_CREDENTIALS;
 
 public class LoginActivity extends BaseActivity {
-    TextView tv1;
-    EditText ed1,ed2,ed3;
-    Button b1;
-    public static final String MyPREFERENCES = "MyPrefs" ;
-    public static final String Login = "loginKey";
-    public static final String Password = "passKey";
-    SharedPreferences sharedpreferences;
+
+    @BindView(R.id.login_edittext_username)
+    protected EditText usernameEditText;
+
+    @BindView(R.id.login_edittext_password)
+    protected EditText passwordEditText;
 
     @Inject
     protected Authenticator authenticator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        ed1=(EditText)findViewById(R.id.editText);
-        ed2=(EditText)findViewById(R.id.editText2);
+        ButterKnife.bind(this);
+        getContainer().inject(this);
+    }
 
-        b1=(Button)findViewById(R.id.button);
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+    @OnClick(R.id.login_button_sign_in)
+    public void onSignInButtonClick(Button button) {
+        String username = usernameEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
 
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String l  = ed1.getText().toString();
-                String pass  = ed2.getText().toString();
+        authenticator
+            .authenticateWithCredentials(username, password)
+            .then(new AndroidUiDoneCallback<ApplicationUser>() {
+                @Override
+                public void onDone(ApplicationUser result) {
+                    startMainActivity();
+                }
+            })
+            .fail(new AndroidUiFailCallback<Failure<AuthenticationFailure>>() {
+                @Override
+                public void onFail(Failure<AuthenticationFailure> failure) {
+                    if (failure.isBecauseOf(BAD_CREDENTIALS)) {
+                       informAboutBadCredentials();
+                    } else {
+                        showErrorMessage();
 
-                SharedPreferences.Editor editor = sharedpreferences.edit();
+                        if (failure.isBecauseOfThrowable()) {
+                            failure.getThrowable().printStackTrace();
+                        }
+                    }
+                }
+            });
+    }
 
-                editor.putString(Login, l);
-                editor.putString(Password, pass);
-                editor.commit();
-                Toast.makeText(LoginActivity.this,"Thanks",Toast.LENGTH_LONG).show();
+    private void startMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
 
-                authenticator
-                        .authenticateWithCredentials(l, pass)
-                        .then(new AndroidUiDoneCallback<ApplicationUser>() {
-                            @Override
-                            public void onDone(ApplicationUser result) {
-                                tv1.setText("authenticated successfully");
-                            }
-                        })
-                        .fail(new AndroidUiFailCallback<Failure<AuthenticationFailure>>() {
-                            @Override
-                            public void onFail(Failure<AuthenticationFailure> failure) {
-                                if (failure.isBecauseOfThrowable()) {
-                                    tv1.setText("" + failure.getThrowable().getMessage());
-                                } else if (failure.isBecauseOf(BAD_CREDENTIALS)) {
-                                    tv1.setText("bad credentials");
-                                } else {
-                                    tv1.setText("" + failure.getStatusCode());
-                                }
-                            }
-                        });
-            }
-        });
+    private void informAboutBadCredentials() {
+        Toast
+            .makeText(LoginActivity.this, R.string.login_message_bad_credentials, Toast.LENGTH_LONG)
+            .show();
+    }
+
+    private void showErrorMessage() {
+        Toast
+            .makeText(LoginActivity.this, R.string.login_message_error, Toast.LENGTH_SHORT)
+            .show();
+    }
+
+    @OnClick(R.id.login_textview_sign_up)
+    public void onSignUpTextViewClick() {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
     }
 
 }
