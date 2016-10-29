@@ -142,7 +142,7 @@ public class RegisterActivity extends BaseActivity {
                 public void onFail(Failure<AuthenticationFailure> failure) {
                     showErrorMessage();
 
-                    if (failure.isBecauseOfThrowable()) {
+                    if (failure.isCausedByThrowable()) {
                         failure.getThrowable().printStackTrace();
                     }
                 }
@@ -156,16 +156,16 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void onRegistrationFailure(Failure<RegistrationFailure> failure) {
-        if (failure.isBecauseOf(USERNAME_ALREADY_TAKEN)) {
+        if (failure.isCausedBy(USERNAME_ALREADY_TAKEN)) {
             String errorMessage = getResources().getString(R.string.register_message_username_taken);
             usernameEditText.setError(errorMessage);
-        } else if (failure.isBecauseOf(EMAIL_ALREADY_TAKEN)) {
+        } else if (failure.isCausedBy(EMAIL_ALREADY_TAKEN)) {
             String errorMessage = getResources().getString(R.string.register_message_email_taken);
             emailEditText.setError(errorMessage);
         } else {
             showErrorMessage();
 
-            if (failure.isBecauseOfThrowable()) {
+            if (failure.isCausedByThrowable()) {
                 failure.getThrowable().printStackTrace();
             }
         }

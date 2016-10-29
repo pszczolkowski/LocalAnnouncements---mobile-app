@@ -55,9 +55,9 @@ public class MainActivity extends BaseActivity {
 			.fail(new AndroidUiFailCallback<Failure<AuthenticationFailure>>() {
 				@Override
 				public void onFail(Failure<AuthenticationFailure> failure) {
-					if (failure.isBecauseOfThrowable()) {
+					if (failure.isCausedByThrowable()) {
 						testView.setText("" + failure.getThrowable().getMessage());
-					} else if (failure.isBecauseOf(BAD_CREDENTIALS)) {
+					} else if (failure.isCausedBy(BAD_CREDENTIALS)) {
 						testView.setText("bad credentials");
 					} else {
 						testView.setText("" + failure.getStatusCode());

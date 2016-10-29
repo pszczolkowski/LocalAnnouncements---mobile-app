@@ -63,11 +63,11 @@ public class Failure<T> {
 		return this;
 	}
 
-	public boolean isBecauseOfThrowable() {
+	public boolean isCausedByThrowable() {
 		return throwable != null;
 	}
 
-	public boolean isBecauseOf(T reason) {
+	public boolean isCausedBy(T reason) {
 		return reasons.contains(reason);
 	}
 

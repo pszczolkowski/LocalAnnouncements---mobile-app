@@ -60,12 +60,12 @@ public class LoginActivity extends BaseActivity {
             .fail(new AndroidUiFailCallback<Failure<AuthenticationFailure>>() {
                 @Override
                 public void onFail(Failure<AuthenticationFailure> failure) {
-                    if (failure.isBecauseOf(BAD_CREDENTIALS)) {
+                    if (failure.isCausedBy(BAD_CREDENTIALS)) {
                        informAboutBadCredentials();
                     } else {
                         showErrorMessage();
 
-                        if (failure.isBecauseOfThrowable()) {
+                        if (failure.isCausedByThrowable()) {
                             failure.getThrowable().printStackTrace();
                         }
                     }
